@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!ELEMENT persons (person*) > <!-- *는 여러개 쓸 수 있다. -->
+	<!ELEMENT person (name,age,tel) > <!--  ()안에는 자식 태그 -->
+		<!ELEMENT name (#PCDATA)>
+			<!ATTLIST name nickname CDATA #REQUIRED> <!-- 필수 -->
+			<!ATTLIST name familyname CDATA #IMPLIED> <!-- 선택 -->
+		<!ELEMENT age (#PCDATA)>
+		<!ELEMENT tel (#PCDATA)>	
+		    <!ATTLIST tel hometel CDATA #REQUIRED> 
