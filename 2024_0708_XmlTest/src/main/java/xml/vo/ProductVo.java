@@ -1,6 +1,8 @@
 package xml.vo;
 
 public class ProductVo {
+	int no;       // 순번 
+	
 	String title; // 상품명
 	String link;  // 상품링크 
 	String image; // 이미지
@@ -9,6 +11,14 @@ public class ProductVo {
 	int hprice;   // 최고가
 	
 	String mallName; // 쇼핑몰 이름 
+
+	public int getNo() {
+		return no;
+	}
+
+	public void setNo(int no) {
+		this.no = no;
+	}
 
 	public String getTitle() {
 		return title;

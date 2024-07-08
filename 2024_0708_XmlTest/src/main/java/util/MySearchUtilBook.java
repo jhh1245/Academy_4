@@ -10,20 +10,19 @@ import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.input.SAXBuilder;
 
+import xml.vo.BookVo;
 
-import xml.vo.ProductVo;
+public class MySearchUtilBook {
 
-public class MySearchUtil {
-
-	public static List<ProductVo> search_shop(String p_name, int start, int display)
+	public static List<BookVo> search_book(String p_name, int start, int display)
 	{
-		List<ProductVo> list = new ArrayList<ProductVo>();
+		List<BookVo> list = new ArrayList<BookVo>();
 		String clientId = "0didOwKiC9WUhHvd1xsY";
 		String clientSecret = "_yK7QmnsYl";
 
 		try {
 			p_name = URLEncoder.encode(p_name, "utf-8");
-			String urlStr = String.format("https://openapi.naver.com/v1/search/shop.xml?query=%s&start=%d&display=%d",
+			String urlStr = String.format("https://openapi.naver.com/v1/search/book.xml?query=%s&start=%d&display=%d",
 					         p_name,start,display
 					);
 
@@ -54,30 +53,32 @@ public class MySearchUtil {
 				String title = item.getChildText("title");
 				String link  = item.getChildText("link");
 				String image = item.getChildText("image");
-				int lprice=0,hprice=0;
+				String author = item.getChildText("author");
+				String description = item.getChildText("description");
+				int price = 0, discount = 0;
 				try {
-					lprice = Integer.parseInt(item.getChildText("lprice"));
+					price = Integer.parseInt(item.getChildText("price"));
 				} catch (Exception e) {
 					// TODO: handle exception
 				}
 				
 				try {
-					hprice = Integer.parseInt(item.getChildText("hprice"));
+					discount = Integer.parseInt(item.getChildText("discount"));
 				} catch (Exception e) {
 					// TODO: handle exception
 				}
 				
-				String mallName = item.getChildText("mallName");
 				
 				//상품목록을 포장
-				ProductVo vo = new ProductVo();
+				BookVo vo = new BookVo();
 				vo.setNo(no++);
 				vo.setTitle(title);
 				vo.setLink(link);
 				vo.setImage(image);
-				vo.setLprice(lprice);
-				vo.setHprice(hprice);
-				vo.setMallName(mallName);
+				vo.setAuthor(author);
+				vo.setPrice(price);
+				vo.setDiscount(discount);
+				vo.setDescription(description);
 								
 				//ArrayList에 넣기
 				list.add(vo);

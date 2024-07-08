@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>상품 검색</title>
+<!--  Bootstrap 3.x  -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+<style type="text/css">
+	#box{
+		width:1000px;
+		margin:auto;
+		margin-top:20px;
+	}
+</style>
+
+<script type="text/javascript">
+	function search(){
+		let p_name = $("#p_name").val().trim();
+		let p_page = $("#p_page").val();
+		let display = $("#display").val();
+		
+		if(p_name == ''){
+			alert("상품명을 입력하세요");
+			$("#p_name").val("");
+			$("#p_name").focus();
+			return; 
+		}
+		
+		// 가져올 시작 상품 위치 
+		let start = (p_page-1) * display + 1; // 시작번호 구하는 공식. 1페이지, 10개씩이라면 start는 1, 11, 21 .. 이렇게 증가 
+		
+		// Ajax이용해서 요청 
+		$.ajax({
+			url			: "product/list.do", // ProductListAction Servlet
+			data 		: {"p_name":p_name, "start":start, "display":display},
+			success 	: function(res_data){
+				$("#disp").html(res_data);
+			}, 
+			error 		: function(err){
+				alert(err.responseText);	
+			}
+		});
+	}
+</script>
+
+</head>
+<body>
+
+<div id="box">
+<form class="form-inline">
+	상품명 : <input class="form-control" id="p_name">
+		   <input class="btn btn-info" type="button" value="검색" onclick="search();" >
+		   
+		   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	페이지 : 
+	      <select class="form-control" id="p_page">
+		   	<option value="1">1</option>
+		   	<option value="2">2</option>
+		   	<option value="3">3</option>
+		   	<option value="4">4</option>
+		   	<option value="5">5</option>
+		   </select>
+		   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	페이지당 조회수 : 
+		   <select class="form-control" id="display">
+		   	<option value="10">10개씩 보기</option>
+		   	<option value="20">20개씩 보기</option>
+		   	<option value="30">30개씩 보기</option>
+		   	<option value="50">50개씩 보기</option>
+		   	<option value="100">100개씩 보기</option>
+		   </select>
+</form>
+	<hr>
+	
+	<div id="disp"></div>
+
+</div>
+</body>
+</html>
