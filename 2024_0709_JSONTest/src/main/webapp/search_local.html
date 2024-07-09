@@ -40,8 +40,30 @@
 	  }
 	}
 	
-	function search(){
+	function search(){	
+		let keyword = $("#keyword").val().trim();
+		let page    = $("#page").val();
+		let size    = $("#size").val();
+		let radius  = $("#radius").val();
 		
+		if(keyword==''){
+			alert("키워드를 입력하세요.");
+			$("#keyword").val("");
+			$("#keyword").focus();
+			return;
+		}
+		
+		// Ajax요청
+		$.ajax({
+			url		: "search.do", // SearchAction
+			data    : {"query":keyword, "page":page, "size":size, "radius":radius, "latitude":latitude, "longitude":longitude},
+			success : function(res_data){
+				$("#disp").html(res_data);
+			}, 
+			error   : function(err){
+				alert(err.responseText);
+			}
+		});
 	}
 	
 </script>
@@ -78,9 +100,9 @@
 		   		
 	반경 : 
 			<select id="radius" class="form-control">
-				<option value="5">5</option>
-				<option value="10">10</option>
-				<option value="15">15</option>
+				<option value="500">500m</option>
+				<option value="1000">1000m</option>
+				<option value="1500">1500m</option>
 			</select>
 </form>		   
 	<hr>  
