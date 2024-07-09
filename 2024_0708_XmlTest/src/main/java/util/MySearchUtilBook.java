@@ -14,16 +14,16 @@ import xml.vo.BookVo;
 
 public class MySearchUtilBook {
 
-	public static List<BookVo> search_book(String p_name, int start, int display)
+	public static List<BookVo> search_book(String b_name, int start, int display)
 	{
 		List<BookVo> list = new ArrayList<BookVo>();
 		String clientId = "0didOwKiC9WUhHvd1xsY";
 		String clientSecret = "_yK7QmnsYl";
 
 		try {
-			p_name = URLEncoder.encode(p_name, "utf-8");
+			b_name = URLEncoder.encode(b_name, "utf-8");
 			String urlStr = String.format("https://openapi.naver.com/v1/search/book.xml?query=%s&start=%d&display=%d",
-					         p_name,start,display
+					b_name,start,display
 					);
 
 			

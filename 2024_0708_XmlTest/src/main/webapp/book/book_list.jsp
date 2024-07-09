@@ -20,10 +20,30 @@
      width: 120px;
      height: 100px;
   }
+  td{
+    vertical-align: middle  !important;
+  }
+
 </style>
 
+<script type="text/javascript">
+
+  function showDescription(title,description){
+	  
+	  $("#myModal").modal({backdrop: "static"});
+	  
+	  $("#title").html(title);
+	  $("#description").html(description);
+	  
+	  
+  }
+
+</script>
 </head>
 <body>
+
+  <%@include file="modal.jsp" %>
+  
 	<table class="table">
 		<tr class="success">
 			<th>순번</th>
@@ -44,7 +64,7 @@
 				<td>${vo.author}</td>
 				<td><fmt:formatNumber type="currency" value="${vo.price }"/></td>
 				<td><fmt:formatNumber type="currency" value="${vo.discount }"/></td>
-				<td>${vo.description }</td>
+				<td><input type="button" value="설명보기" onclick="showDescription(`${ vo.title }`,`${vo.description}`);"></td>
 			</tr>
 		</c:forEach>
 		
