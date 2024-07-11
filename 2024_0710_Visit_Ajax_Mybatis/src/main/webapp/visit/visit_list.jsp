@@ -113,10 +113,49 @@
 			
 		});
 		
+	}  // end:modify_form()
+	
+	
+	
+	function find(){
+		let search = $("#search").val();
+		let search_text = $("#search_text").val().trim();
 		
-	}  
+		
+		// 전체검색이 아니고, 검색어가 비어있으면 
+		if(search!= "all" && search_text == ""){
+			alert("검색어를 입력하세요!");
+			
+			$("#search_text").focus();
+			return ;
+		}
+		
+		// 자바스크립트 이용해서 호출
+		location.href="list.do?search=" + search + "&search_text=" + encodeURIComponent(search_text, "utf-8");
+		
+	}
 
 </script>
+
+<script type="text/javascript"> 
+//초기화 관련 스크립트
+
+$(document).ready(function(){
+	
+	if("${not empty param.search}" == "true"){ // 파라미터가 있으면  
+		$("#search").val("${ param.search }"); // 이름, 내용, 이름+내용 선택한 것이 유지되도록
+		
+		// 전체보기를 선택한 경우 입력창을 지우기
+		if("${param.search eq 'all'}" == "true"){
+			$("#search_text").val("");
+			
+		}
+	}
+	
+});
+
+</script>
+
 </head>
 <body>
 	<div id="box">
@@ -124,6 +163,21 @@
 		<div style="margin-bottom: 30px;">
 			<input class="btn btn-info" type="button" value="글쓰기" onclick="location.href='insert_form.do'">
 			<!--  visit 폴더가 현재위치니까 생략해야됨  -->
+		</div>
+
+		<!-- 검색메뉴 -->
+		<div style="text-align:right; margin-bottom:5px;">
+			<form class="form-inline">
+				<select id="search" class="form-control">
+					<option value="all">전체보기</option>
+					<option value="name">이름</option>
+					<option value="content">내용</option>
+					<option value="name_content">이름+내용</option>
+				</select>
+				
+				<input id="search_text" class="form-control" value="${param.search_text}">
+				<input type="button" value="검색" class="btn btn-info" onclick="find();">
+			</form>
 		</div>
 
 		<!-- 방명록에 목록 없을 경우 -->

@@ -13,6 +13,26 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			(select * from visit order by idx desc) v
 	</select>
 	
+	
+	<!-- 검색 조건 별 조회  db.vo.VisitVo = visit(별명) -->
+	<select id="visit_list_condition" parameterType="Map" resultType="visit">
+	
+		select * from visit_view 
+		
+		<!--  Dynamic Query 조건별 쿼리 -->
+		<trim prefix="where" prefixOverrides="or|and"> 
+			<if test="name!=null"> 
+				name like '%' ||  #{ name } || '%'
+			</if>
+			
+			<if test="content!=null">
+				or content like '%' || #{content} || '%'
+			</if>
+		</trim>
+		
+	</select>
+	
+	
 	<!-- 추가 
 		parameter가 객체로 전달되면 
 		mybatis parameter 변수는 

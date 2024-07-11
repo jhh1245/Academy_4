@@ -1,6 +1,7 @@
 package dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -30,8 +31,10 @@ public class VisitDao {
 
 	}
 	
-	//목록조회 
-	public List<VisitVo> selectList() { //select한 결과를 List로 만든다. 
+
+	
+	// 목록 전체 조회 
+	public List<VisitVo> selectList() { 
 		List<VisitVo> list = null;
 
 		// 1. sqlSession 얻어오기 
@@ -43,9 +46,26 @@ public class VisitDao {
 		// 3. 닫기 : conn.close() 과정 포함 
 		sqlSession.close(); // 작업세션 닫기 
 		
+		
+		
 		return list;
 	}
-	
+
+	// Map을 인자로 받는 selectList
+	public List<VisitVo> selectList(Map<String, String> map) { //select한 결과를 List로 만든다. 
+		List<VisitVo> list = null;
+
+		// 1. sqlSession 얻어오기 
+		SqlSession sqlSession = factory.openSession(); // Connection 획득 
+		
+		// 2. 작업 수행 
+		list = sqlSession.selectList("visit.visit_list_condition",  map);
+		
+		// 3. 닫기 : conn.close() 과정 포함 
+		sqlSession.close(); // 작업세션 닫기 
+		
+		return list;
+	}
 	
 	
 	// 쓰기
@@ -126,4 +146,6 @@ public class VisitDao {
 		return res;
 
 	} // end:update() 
-}
+
+	
+	}
