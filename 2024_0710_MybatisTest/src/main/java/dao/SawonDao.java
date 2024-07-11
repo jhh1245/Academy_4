@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -67,6 +68,7 @@ public class SawonDao{
 		return list;
 	}
 
+	// 직급별 조회
 	public List<SawonVo> selectListFromSajob(String sajob) {
 		
 		List<SawonVo> list = null;
@@ -82,5 +84,38 @@ public class SawonDao{
 		
 		return list;
 		
+	}
+
+	
+	// 부서, 직급 조건 조회 
+	public List<SawonVo> selectList(Map<String, Object> map) {
+		List<SawonVo> list = null;
+
+		// 1. SqlSession 얻어오기 (MyBatis 수행객체)
+		SqlSession sqlSession = factory.openSession(); // 세션 열어줘 
+		
+		// 2. 작업수행                   namespace.mapper-id       parameter
+		list = sqlSession.selectList("sawon.sawon_list_condition", map);
+		
+		// 3. 닫기 
+		sqlSession.close(); // 꼭 닫아줘야 한다. 
+		
+		return list;
+		
+	}
+
+	public List<SawonVo> selectListFromSasex(String sasex) {
+		List<SawonVo> list = null;
+
+		// 1. SqlSession 얻어오기 (MyBatis 수행객체)
+		SqlSession sqlSession = factory.openSession(); // 세션 열어줘 
+		
+		// 2. 작업수행                   namespace.mapper-id       parameter
+		list = sqlSession.selectList("sawon.sawon_list_sasex", sasex);
+		
+		// 3. 닫기 
+		sqlSession.close(); // 꼭 닫아줘야 한다. 
+		
+		return list;
 	}
 }

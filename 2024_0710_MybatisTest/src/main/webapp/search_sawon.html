@@ -23,7 +23,7 @@
 		
 		// 직급 전체 (부서별 검색했다가 직급별 검색시 select에 전체보기로 표시하려고)
 		$("#sajob").val("all");
-		
+		$("#sasex").val("all");
 		
 		// Ajax로 요청 
 		$.ajax({
@@ -43,11 +43,57 @@
 		
 		// 부서 전체 (직급별 검색했다가 부서별 검색시 select에 전체보기로 표시하려고)
 		$("#deptno").val(0);
+		$("#sasex").val("all");
 		
 		// Ajax로 요청 
 		$.ajax({
 			url		: "sawon/list_sajob.do", // SawonListJobAction 
 			data 	: {"sajob":sajob}, // sawon/list.do?sajob=과장
+			success	: function(res_data){ // sawon_list.jsp가 보여진다. 
+				$("#disp").html(res_data);
+			},
+			error	: function(err){
+				alert(err.responseText);	
+			}
+		});
+	}
+	
+	function search_sasex(){
+		const sasex = $("#sasex").val();
+		
+		// 부서 전체 (직급별 검색했다가 부서별 검색시 select에 전체보기로 표시하려고)
+		$("#deptno").val(0);
+		$("#sajob").val("all");
+		
+		// Ajax로 요청 
+		$.ajax({
+			url		: "sawon/list_sasex.do", // SawonListSexAction 
+			data 	: {"sasex":sasex}, // sawon/list.do?sasex=여자
+			success	: function(res_data){ // sawon_list.jsp가 보여진다. 
+				$("#disp").html(res_data);
+			},
+			error	: function(err){
+				alert(err.responseText);	
+			}
+		});
+	}
+
+	
+	function search_all(){
+		const deptno = $("#deptno").val();
+		const sajob  = $("#sajob").val();
+		const sasex  = $("#sasex").val();
+		const sahire  = $("#sahire").val();
+		
+		// Ajax로 요청 
+		$.ajax({
+			url		: "sawon/list_condition.do", // SawonListConditionAction
+			data 	: {					
+						"sajob"  : sajob,  // sawon/list_condition.do?deptno=10&sajob=과장
+				        "deptno" : deptno,
+				        "sasex"  : sasex,
+				        "sahire" : sahire 
+			          }, 
 			success	: function(res_data){ // sawon_list.jsp가 보여진다. 
 				$("#disp").html(res_data);
 			},
@@ -69,7 +115,7 @@
 				<option value="40">40번부서</option>
 			</select>
 			<input type="button" value="부서별검색" class="btn btn-info" onclick="search();">
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 			
 	직급 : <select id="sajob" class="form-control">
 				<option value="all">전체보기</option>
@@ -78,7 +124,29 @@
 				<option value="대리">대리</option>
 				<option value="사원">사원</option>
 			</select>
-			<input type="button" value="직급별검색" class="btn btn-info" onclick="search_sajob();">		
+			<input type="button" value="직급별검색" class="btn btn-info" onclick="search_sajob();">
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	
+	성별 : <select class="form-control" id="sasex">
+			<option value="all">전체</option>
+			<option value="남자">남자</option>
+			<option value="여자">여자</option>
+		  </select>
+		  <input type="button" value="성별별검색" class="btn btn-info" onclick="search_sasex();">
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	
+	입사년대 : <select class="form-control" id="sahire">
+			<option value="all">전체</option>
+			<option value="1980">1980년대</option>
+			<option value="1990">1990년대</option>
+			<option value="2000">2000년대</option>
+		  </select>
+		  <input type="button" value="입사년대별검색" class="btn btn-info" onclick="search_sahire();">
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	
+	<input type="button" class="btn btn-info" value="전체조건검색" onclick="search_all();">
+		
+			
 	<hr>
 	<div id="disp"></div>
 </form>

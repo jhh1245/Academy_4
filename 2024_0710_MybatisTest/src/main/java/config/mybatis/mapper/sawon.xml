@@ -22,6 +22,37 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  	<select id="sawon_list_sajob" parameterType="String" resultType="vo.SawonVo">
  		select * from sawon where sajob=#{ sajob }
  	</select>
+ 	
+ 	<!-- 성별별 조회 --> 
+ 	<select id="sawon_list_sasex" parameterType="String" resultType="vo.SawonVo">
+ 		select * from sawon where sasex=#{ sasex }
+ 	</select>
+ 	
+ 	
+ 	
+	
+ 	<!-- Dynamic Query -->
+ 	<select id="sawon_list_condition" parameterType="Map" resultType="vo.SawonVo">
+ 		select * from sawon
+ 		<!-- 검색조건 추가 -->	
+ 		<trim prefix="where" prefixOverrides="and">
+ 			<if test="deptno!=null"> <!-- 값이 있으면 -->
+ 				deptno = #{ deptno }
+ 			</if>
+ 			<if test="sajob!=null">
+ 				and sajob = #{ sajob }
+ 			</if>
+ 			<if test="sasex!=null">
+ 				and sasex = #{ sasex }
+ 			</if>
+ 			
+ 			<if test="sahire != null">
+ 				and floor(to_number(to_char(sahire, 'YYYY')) / 10) * 10 = #{ sahire }
+ 			</if>
+ 			
+ 		</trim>
+ 			
+ 	</select>
 
 </mapper>
 
