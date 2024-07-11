@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="visit"> <!--  헷갈리지 말것 여기는 네임스페이스 이름이다. -->
+	
+	<!-- 전체 조회 -->
+	<select id="visit_list" resultType="visit"> <!-- sqlMapConfig.xml에 타입별명 했기 때문에 -->
+		select 
+			rownum as no, v.*   
+		from
+			(select * from visit order by idx desc) v
+	</select>
+	
+	<!-- 추가 
+		parameter가 객체로 전달되면 
+		mybatis parameter 변수는 
+		VO내 속성명을 이용할 수 있다.
+	-->
+	<insert id="visit_insert" parameterType="db.vo.VisitVo">
+		insert into visit values(seq_visit_idx.nextVal, 
+								 	#{ name }, <!-- get Name ()를 호출한 효과와 같다 -->
+								 	#{ content }, 
+								 	#{ pwd }, 
+								 	#{ ip }, 
+								 	sysdate
+								 )
+	</insert>
+	
+	<!-- 삭제 -->
+	<delete id="visit_delete" parameterType="int">
+		delete from visit where idx=#{ idx }
+	</delete>
+	
+	
+	<!-- Select One -->
+	<select id="visit_one" resultType="visit" parameterType="int">
+		select * from visit_view where idx=#{ idx }
+	</select>
+	
+	
+	<!-- update -->
+	<update id="visit_update" parameterType="db.vo.VisitVo">
+		update visit 
+			set name=#{ name },content=#{ content },pwd=#{ pwd },ip=#{ ip },regdate=sysdate 
+		where idx=#{ idx }
+	</update>
+	
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
