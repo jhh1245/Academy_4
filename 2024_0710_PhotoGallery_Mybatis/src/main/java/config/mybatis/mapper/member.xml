@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="member"> <!--  헷갈리지 말것 여기는 네임스페이스 이름이다. -->
+	<!-- 전체 조회 -->
+	<select id="member_list" resultType="member"> <!-- sqlMapConfig.xml에 타입별명 했기 때문에 -->
+		select * from member_test order by mem_idx
+	</select>
+	
+	<!-- Select One -->
+	<select id="member_one" resultType="member" parameterType="int">
+		select * from member_test where mem_idx=#{mem_idx}
+	</select>
+	
+	<select id="member_one_id" resultType="member" parameterType="String">
+		select * from member_test where mem_id=#{mem_id}
+	</select>
+	
+	<!-- 삭제 -->
+	<delete id="member_delete" parameterType="int">
+		delete from member_test where mem_idx=#{ mem_idx }
+	</delete>
+	
+	<!-- 추가 -->
+	<insert id="member_insert" parameterType="member">
+		insert into member_test values(seq_member_idx.nextVal, 
+		#{mem_name}, #{mem_id}, #{mem_pwd}, #{mem_zipcode}, #{mem_addr}, #{mem_ip}, default, default)
+	</insert>
+	
+	<!-- update -->
+	<update id="member_update" parameterType="member">
+		update member set
+			mem_name=#{mem_name},mem_pwd=#{mem_pwd},mem_zipcode=#{mem_zipcode},
+			mem_addr=#{mem_addr},mem_ip=#{mem_ip},mem_grade=#{mem_grade}  where mem_idx=#{mem_idx}
+	</update>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
