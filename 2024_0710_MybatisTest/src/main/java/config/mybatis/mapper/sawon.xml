@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="sawon">
+
+	<!--  select : 반드시 resultType 또는 resultMap 속성을 정의해야 한다.  -->
+	<select id="sawon_list" resultType="vo.SawonVo">
+		select * from sawon 
+	</select>
+ 
+ 	<!-- 부서별 조회 
+ 		parameterType : 전달 인자 타입 
+ 		resultType 	  : select 결과에 대한 포장타입(각 레코드에 대한)
+ 	-->
+ 	<select id="sawon_list_deptno" parameterType="int" resultType="vo.SawonVo">
+ 		select * from sawon where deptno=#{ deptno }
+ 	</select>
+  
+ 	<!-- 직급별 조회 --> 
+ 	<select id="sawon_list_sajob" parameterType="String" resultType="vo.SawonVo">
+ 		select * from sawon where sajob=#{ sajob }
+ 	</select>
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+

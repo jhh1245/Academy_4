@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<!--  Bootstrap  3.x  -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+<style type="text/css">
+	#box {
+		width:600px;
+		margin:auto;
+		margin-top: 50px; 	
+	}
+
+</style>
+
+<script type="text/javascript">
+	function search(){
+		const deptno = $("#deptno").val();
+		
+		// 직급 전체 (부서별 검색했다가 직급별 검색시 select에 전체보기로 표시하려고)
+		$("#sajob").val("all");
+		
+		
+		// Ajax로 요청 
+		$.ajax({
+			url		: "sawon/list.do",
+			data 	: {"deptno":deptno}, // sawon/list.do?deptno=10
+			success	: function(res_data){ // sawon_list.jsp가 보여진다. 
+				$("#disp").html(res_data);
+			},
+			error	: function(err){
+				alert(err.responseText);	
+			}
+		});
+	}
+	
+	function search_sajob(){
+		const sajob = $("#sajob").val();
+		
+		// 부서 전체 (직급별 검색했다가 부서별 검색시 select에 전체보기로 표시하려고)
+		$("#deptno").val(0);
+		
+		// Ajax로 요청 
+		$.ajax({
+			url		: "sawon/list_sajob.do", // SawonListJobAction 
+			data 	: {"sajob":sajob}, // sawon/list.do?sajob=과장
+			success	: function(res_data){ // sawon_list.jsp가 보여진다. 
+				$("#disp").html(res_data);
+			},
+			error	: function(err){
+				alert(err.responseText);	
+			}
+		});
+	}
+</script>
+</head>
+<body>
+<div id="box">
+<form class="form-inline">
+	부서번호 : <select id="deptno" class="form-control">
+				<option value="0">전체보기</option>
+				<option value="10">10번부서</option>
+				<option value="20">20번부서</option>
+				<option value="30">30번부서</option>
+				<option value="40">40번부서</option>
+			</select>
+			<input type="button" value="부서별검색" class="btn btn-info" onclick="search();">
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			
+	직급 : <select id="sajob" class="form-control">
+				<option value="all">전체보기</option>
+				<option value="부장">부장</option>
+				<option value="과장">과장</option>
+				<option value="대리">대리</option>
+				<option value="사원">사원</option>
+			</select>
+			<input type="button" value="직급별검색" class="btn btn-info" onclick="search_sajob();">		
+	<hr>
+	<div id="disp"></div>
+</form>
+</div>
+</body>
+</html>
