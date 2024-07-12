@@ -1,7 +1,7 @@
 package db.vo;
 
 public class PhotoVo {
-
+	int no;
 	int p_idx;
 	String p_title;
 	String p_content;
@@ -26,6 +26,16 @@ public class PhotoVo {
 		this.mem_name = mem_name;
 	}
 	
+	
+	
+	public int getNo() {
+		return no;
+	}
+
+	public void setNo(int no) {
+		this.no = no;
+	}
+
 	public int getP_idx() {
 		return p_idx;
 	}

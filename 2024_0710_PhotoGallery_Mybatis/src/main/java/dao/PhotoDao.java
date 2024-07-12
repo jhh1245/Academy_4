@@ -1,6 +1,7 @@
 package dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -44,6 +45,41 @@ public class PhotoDao {
 				
 		return list;
 	}
+
+	
+	
+	// Map을 파라미터로 받는 
+	public List<PhotoVo> selectList(Map<String, Object> map) {
+		List<PhotoVo> list = null;
+
+		// 1. SqlSession 얻어오기 
+		SqlSession sqlSession = factory.openSession();
+		
+		//2. 작업수행 
+		list = sqlSession.selectList("photo.photo_list_page", map);
+		
+		//3. 닫기 
+		sqlSession.close();
+		
+		return list;
+	}
+	
+	// 전체 레코드 수 구하기
+	public int selectRowTotal() {
+		int total = 0;
+		
+		// 1. SqlSession 얻어오기 
+		SqlSession sqlSession = factory.openSession();
+		
+		//2. 작업수행 
+		total = sqlSession.selectOne("photo.photo_row_total");
+		
+		//3. 닫기 
+		sqlSession.close();
+				
+		return total;
+	}
+	
 	
 	// p_idx에 대한 1건의 정보
 	public PhotoVo selectOne(int p_idx) {
@@ -130,4 +166,6 @@ public class PhotoDao {
 		return res;
 
 	}//end:update()
+
+
 }

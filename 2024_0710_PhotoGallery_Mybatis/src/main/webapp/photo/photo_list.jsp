@@ -20,7 +20,7 @@
 
 <style type="text/css">
 #box {
-	width: 800px;
+	width: 750px;
 	margin: auto;
 	margin-top: 30px;
 }
@@ -35,11 +35,11 @@
 }
 
 #photo-box {
-	height: 600px;
+	height: 500px;
 	border: 2px solid skyblue;
 	margin-top: 10px;
 	/* 상하스크롤 */
-	overflow-y: scroll;
+	/* overflow-y: scroll; */
 }
 
 .photo {
@@ -154,7 +154,7 @@
 	<%@include file="popup.jsp" %>
 
 	<div id="box">
-		<h1 id="title">::::PhotoGallery::::</h1>
+		<h1 id="title">★☆ PhotoGallery ☆★</h1>
 
 		<!-- 메뉴 -->
 		<div class="row">
@@ -184,10 +184,35 @@
 		   <c:forEach var="vo"  items="${ list }">
 			    <div class="photo" onclick="showPhoto('${ vo.p_idx }');">
 			       <img src="../images/${ vo.p_filename }">
-			       <div class="title">${ vo.p_title }</div>
+			       <div class="title">(${ vo.no }) ${ vo.p_title }</div>
 			    </div>
 		   </c:forEach> 
 		</div>
+		
+		<!-- Page Menu  -->
+		<div style="text-align: center; margin-top:30px; font-size:20px;">
+			${ pageMenu }
+			
+			
+			<!-- <br>
+			<ul class='pagination'>
+				<li><a href="list.do?page=1">◀</a></li>
+				<li><a href="list.do?page=1">1</a></li>
+				<li><a href="?page=2">2</a></li>
+				<li><a href="?page=3">3</a></li>
+				<li><a href="?page=4">4</a></li>
+				<li><a href="?page=5">5</a></li>
+				<li><a href="list.do?page=1">▶</a></li>
+			</ul> -->
+			
+			<!-- <a href="list.do?page=1">1</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<a href="list.do?page=2">2</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<a href="list.do?page=3">3</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<a href="list.do?page=4">4</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<a href="list.do?page=5">5</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -->
+		</div>
+		
+		
 	</div>
 </body>
 </html>
