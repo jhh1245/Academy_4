@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="dept">
+
+	<!-- 레코드 1개 포장시 적용 --> <!--  2  -->
+	<resultMap type="db.vo.DeptVo" id="deptMap"> <!-- 레코드 1개당 DeptVo를 만든다 -->
+		<result property="deptno" column="deptno"/> <!--  10, 10이 들어온다 -->
+		<collection property="sa_list"  
+					column="no=deptno" 
+					select="sawon_list_deptno" 
+		/> <!-- VO만들 때 sa_list를 만든다 -->
+	</resultMap>
+	
+	
+	<resultMap type="db.vo.SawonVo" id="sawonMap"> <!--  4  -->
+		<result property="sabun" column="sabun"/>
+		<collection property="go_list"
+					column="sab=sabun"
+					select="gogek_list_godam"/>
+	</resultMap>
+	
+	
+	<select id="gogek_list_godam" resultType="db.vo.GogekVo"> <!--  5  -->
+		select * from gogek where godam=#{ sab }
+	</select>
+	
+	
+    <select id="sawon_list_deptno" resultMap="sawonMap"> <!--  3  -->
+		select * from sawon where deptno=#{ no } 
+	</select> 
+	
+	
+	<select id="dept_list" resultMap="deptMap"> <!--  1  -->
+		select * from dept
+	</select>
+	
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
