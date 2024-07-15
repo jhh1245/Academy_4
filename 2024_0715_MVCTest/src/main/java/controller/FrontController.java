@@ -30,19 +30,25 @@ public class FrontController extends HttpServlet {
 		// System.out.println(url);
 		// System.out.println(uri);
 		
-		
 		int index = uri.lastIndexOf("/");  // 뒤에서부터 검색 /list.do  
 		String cmd = uri.substring(index+1).replaceAll(".do", ""); // /빼고 .do  빼고 list만
 		
 		System.out.println("cmd = " + cmd);
 		
+		
+		
 		if(cmd.equals("list")) { // cmdAction에서 list메서드 요청 
 			String forward_page = action.list(request, response); // action은 CommandAction 서블릿을 의미함
 		
+			// 결과 정보 (forward 시킬 뷰) forward 
+			request.getRequestDispatcher(forward_page).forward(request, response);
+		} 
+		
+		else if(cmd.equals("view")) {
+			String forward_page = action.view(request, response);
 			
 			// 결과 정보 (forward 시킬 뷰) forward 
 			request.getRequestDispatcher(forward_page).forward(request, response);
-		
 		}
 		
 		// System.out.println("-- 2. FrontController : service() --");
