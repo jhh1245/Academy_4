@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:context="http://www.springframework.org/schema/context"
+xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans-3.0.xsd 
+http://www.springframework.org/schema/context
+http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+	<!-- MyList 객체 생성코드 작성 -->
+	<!-- Setter Injection을 이용해서 sido_list 넣어준다 -->
+	<!-- MyList myListBean = new MyList(); -->	
+	<bean id="myListBean" class="myutil.MyList">
+		<property name="sido_list">
+			<!-- 아래처럼 <list>를 쓰면 이것과 동일. List list = new ArrayList()-->
+			<list>
+				<value>서울</value> <!-- list.add("서울") -->
+				<value>경기</value>
+				<value>인천</value>
+				<value>대구</value>
+				<value>대전</value>
+			</list>
+		</property>
+	</bean>
+	<!-- 외부에서 쓰려면 id가 필요하다 --> 
+	
+	
+	<!-- MySet 객체 생성을 위한 코드작성 -->
+	<bean id="mySetBean" class="myutil.MySet">
+		<property name="fruit_set">
+			<set>
+				<value>수박</value>
+				<value>사과</value>
+				<value>오렌지</value>
+				<value>딸기</value>
+				<value>샤인머스캣</value>
+			</set>
+		</property>
+	</bean>
+	
+	
+	<!-- MyMap 객체생성을 위한 코드 작성 -->
+	<bean id="myMapBean" class="myutil.MyMap">
+		<constructor-arg>
+			<!-- <map>은 Map map = new HashMap()과 동일하다 -->
+			<map>
+				<!-- map.put("one", "하나를 의미합니다") -->
+				<entry key="one"   value="하나를 의미합니다."/>
+				<entry key="two"   value="둘을 의미합니다."/>
+				<entry key="three" value="셋을 의미합니다."/>
+				<entry key="four"  value="넷을 의미합니다."/>
+				<entry key="five"  value="다섯을 의미합니다."/>
+			</map>
+		</constructor-arg>
+	</bean>
+	
+	
+	<!-- MyProp 생성할 코드 작성 -->
+	<bean id="myPropBean" class="myutil.MyProp">
+		<property name="dbProp">
+			<!-- Properties prop = new Properties()와 동일하다 -->
+			<props>
+				<prop key="driver">oracle.jdbc.driver.OracleDriver</prop>
+				<prop key="url">jdbc:oracle:thin:@localhost:1521:xe</prop>
+				<prop key="username">scott</prop>
+				<prop key="password">tiger</prop>
+			</props>
+		</property>
+	</bean>
+	
+</beans>
+
+
