@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:context="http://www.springframework.org/schema/context"
+xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans-3.0.xsd 
+http://www.springframework.org/schema/context
+http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+ 	<!-- 빈? : 객체의 다른 표현 방식 (객체 == 빈) -->
+ 	
+ 	<!-- 1 -->
+ 	<!-- Constructor Injection (생성자 통해서 값을 넣어준다.) -->
+ 	<!-- PersonVo p1 = new PersonVo(" 일길동", 20, "서울 관악 남부 순환로") -> 파라미터 = argument-->
+	<bean id="p1" class="vo.PersonVo" scope="singleton">
+		<constructor-arg value="일길동"/> <!-- PersonVo p1 = new PersonVo("일길동")과 동일. but 1개 인자만 받는 생성자 없음 -->
+		<constructor-arg value="20"/>
+		<constructor-arg value="서울 관악 남부 순환로 1111"/>
+	</bean>
+	
+	
+	
+ 	<!-- 2 -->
+	<!-- Setter Injection (setter를 이용해서 값을 넣어준다) -->
+	<!-- scope: 요청시마다 생성 or 최초 1번만 -->
+   	<bean id="p2" class="vo.PersonVo" scope="prototype">
+   		<!-- PersonVo의 name, age, addr은 프로퍼티이다. -->
+   		
+   		<!-- p2.setName("이길동") -->
+   		<property name="name" value="이길동"/>
+   		<property name="age"  value="30"/>
+   		<property name="addr" value="서울 관악 남부 순환로 222"/>
+   	</bean>
+   	
+   	
+   	
+ 	<!-- 3 -->
+   	<!-- 3개 객체를 주입한다. (인젝션 한다.) p3에게 -->
+   	<!-- String nameBean = new String("삼길동") -->
+   	<bean id="nameBean" class="java.lang.String">
+   		<constructor-arg value="삼길동"/>
+   	</bean>
+   	
+   	<!-- int age = 10 (X) 못만든다. 객체가 아니니까 -->
+   	<!-- Integer ageBean = new Integer(30); -->
+   	<bean id="ageBean" class="java.lang.Integer">
+   		<constructor-arg value="30"/>
+   	</bean>
+   	
+   	<!-- String addrBean = new String("서울시 관악구 봉천동"); -->
+   	<bean id="addrBean" class="java.lang.String">
+   		<constructor-arg value="서울시 관악구 봉천동 333"/>
+   	</bean>
+   	
+   	<!-- 위에서 생성된 객체를 Setter Injection으로 주입받는다. -->
+   	<bean id="p3" class="vo.PersonVo">
+   		<property name="name" ref="nameBean" /> <!-- 이미 만들어진 객체를 연결할 땐 ref(reference) 속성 -->
+   		<property name="age"  ref="ageBean" />
+   		<property name="addr" ref="addrBean" />
+   	</bean>
+   	
+   	<!-- 위에서 생성된 객체를 Constructor를 통한 Injection -->
+   	   	<bean id="p4" class="vo.PersonVo">
+   		<constructor-arg ref="nameBean" /> <!-- 이미 만들어진 객체를 연결할 땐 ref(reference) 속성 -->
+   		<constructor-arg ref="ageBean" />
+   		<constructor-arg ref="addrBean" />
+   	</bean>
+</beans>
+
+
