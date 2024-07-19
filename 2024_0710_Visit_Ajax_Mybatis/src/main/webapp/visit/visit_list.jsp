@@ -103,9 +103,13 @@
 					return;
 				}
 				
-				// 삭제처리..
-				// location.href=`delete.do?idx=\${idx}&no=\${no}`; // js 안의 idx와 no 
-				location.href="modify_form.do?idx=" + idx + "&no=" + no;
+				
+				// 수정폼 띄우기
+				//location.href="modify_form.do?idx=" + idx + "&no=" + no;
+				
+				// JSP 내에서 back-tic사용시 자바스크립트 변수 표현 : \${ 자바스크립트 변수 }, 
+				//                        \가 없을 경우 EL이다.
+				location.href=`modify_form.do?idx=\${ idx }&page=${ empty param.page ? 1 : param.page }&search=${empty param.search ? 'all' : param.search}&search_text=${param.search_text}`;
 			}, 
 			error    : function(err){
 				alert(err.responseText);
@@ -179,6 +183,8 @@ $(document).ready(function(){
 				<input type="button" value="검색" class="btn btn-info" onclick="find();">
 			</form>
 		</div>
+		
+		
 
 		<!-- 방명록에 목록 없을 경우 -->
 		<c:if test="${empty requestScope.list}">
@@ -217,6 +223,11 @@ $(document).ready(function(){
 				</div>
 			</form>
 		</c:forEach>
+		
+		<!-- 페이지 메뉴 -->
+		${ pageMenu }
+		
+		
 	</div>
 
 </body>

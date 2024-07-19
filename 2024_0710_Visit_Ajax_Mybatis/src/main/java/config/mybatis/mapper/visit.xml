@@ -16,8 +16,38 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!-- 검색 조건 별 조회  db.vo.VisitVo = visit(별명) -->
 	<select id="visit_list_condition" parameterType="Map" resultType="visit">
+		
+		
+		select * from 
+		(
+			select -- select 3번째 
+				rank() over(order by idx desc) as no, 
+				v.*
+			from -- from 1번째
+			(	
+				select * from visit  
+				<!--  Dynamic Query 조건별 쿼리 -->
+				<trim prefix="where" prefixOverrides="or|and"> 
+					<if test="name!=null"> 
+						name like '%' ||  #{ name } || '%'
+					</if>
+					
+					<if test="content!=null">
+						or content like '%' || #{content} || '%'
+					</if>
+				</trim>
+			) v
+		)
+		where no between #{ start } and #{ end } -- where 2번째 (여기는 no를 모른다.)
+	</select>
 	
-		select * from visit_view 
+	
+	
+	<!-- 검색조건별 레코드수 구하기 : 검색된 상태에서 페이징 --> 
+	<!-- parameterType="Map" --> 
+	
+	<select id="visit_row_total" parameterType="Map" resultType="int">
+		select nvl(count(*),0) from visit_view 
 		
 		<!--  Dynamic Query 조건별 쿼리 -->
 		<trim prefix="where" prefixOverrides="or|and"> 
@@ -29,7 +59,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				or content like '%' || #{content} || '%'
 			</if>
 		</trim>
-		
 	</select>
 	
 	

@@ -76,7 +76,9 @@
   <form>
   <!-- visit/modify_form.do?idx=12&no=1 -->
   	 <input type="hidden" name="idx" value="${param.idx}"> <!-- 파라미터로 넘어온 -->
-  	 <input type="hidden" name="no" value="${param.no}">
+  	 <input type="hidden" name="page" value="${param.page}">
+  	 <input type="hidden" name="search" value="${param.search}">
+  	 <input type="hidden" name="search_text" value="${param.search_text}">
   	 
      <div id="box">
 		<div class="panel panel-info">

@@ -1,6 +1,7 @@
 package action;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 
 import dao.VisitDao;
 import db.vo.VisitVo;
@@ -35,6 +36,10 @@ public class VisitModifyAction extends HttpServlet {
 		String 	content = request.getParameter("content").replace("\n", "<br>");
 		String  pwd		= request.getParameter("pwd");
 		
+		String  page		= request.getParameter("page");
+		String  search		= request.getParameter("search");
+		String  search_text		= request.getParameter("search_text");
+		
 		// 2. ip 주소 얻어온다.
 		// 톰켓이 알아서 전달해준다. getParameter아니다.
 		String ip		= request.getRemoteAddr();
@@ -46,8 +51,11 @@ public class VisitModifyAction extends HttpServlet {
 		// 4. DB update 
 		int res = VisitDao.getInstance().update(vo);
 		
+		
 		// 5. 목록 보기 이동
-		response.sendRedirect("list.do#p_" + no);
+		String redirect_page = String.format("list.do?page=%s&search=%s&search_text=%s", page, search, URLEncoder.encode(search_text, "utf-8"));
+		
+		response.sendRedirect(redirect_page);
 		
 		
 		

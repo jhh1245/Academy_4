@@ -52,7 +52,7 @@ public class VisitDao {
 	}
 
 	// Map을 인자로 받는 selectList
-	public List<VisitVo> selectList(Map<String, String> map) { //select한 결과를 List로 만든다. 
+	public List<VisitVo> selectList(Map<String, Object> map) { //select한 결과를 List로 만든다. 
 		List<VisitVo> list = null;
 
 		// 1. sqlSession 얻어오기 
@@ -146,6 +146,24 @@ public class VisitDao {
 		return res;
 
 	} // end:update() 
+
+	
+	
+	// 전체 레코드 수 구하기
+	public int selectRowTotal(Map<String, Object> map) {
+		int total = 0;
+		
+		// 1. SqlSession 얻어오기 
+		SqlSession sqlSession = factory.openSession();
+		
+		//2. 작업수행 
+		total = sqlSession.selectOne("visit.visit_row_total", map);
+		
+		//3. 닫기 
+		sqlSession.close();
+				
+		return total;
+	}
 
 	
 	}
