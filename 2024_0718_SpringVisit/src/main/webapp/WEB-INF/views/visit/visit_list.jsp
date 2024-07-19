@@ -20,7 +20,7 @@
 
 <%-- 현재 컨텍스트 경로를 구하는 식 : ${pageContext.request.contextPath}  --%>
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/css/visit.css">
+	href="${pageContext.request.contextPath}/resources/css/visit.css">
 <script type="text/javascript">
 	function del(f){
 		let c_pwd = f.c_pwd.value.trim(); // 내가 입력한 비번 // forEach에 있는 vo안에 pwd 
