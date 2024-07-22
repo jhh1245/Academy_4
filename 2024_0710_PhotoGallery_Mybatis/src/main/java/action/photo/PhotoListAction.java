@@ -64,9 +64,6 @@ public class PhotoListAction extends HttpServlet {
 								MyCommon.Photo.BLOCK_LIST,  // 한 화면에 보여질 게시글 수 
 								MyCommon.Photo.BLOCK_PAGE); // 한 화면에 보여질 페이지 수
 		
-		
-		
-		
 		List<PhotoVo> list = PhotoDao.getInstance().selectList(map);
 		
 		//request binding

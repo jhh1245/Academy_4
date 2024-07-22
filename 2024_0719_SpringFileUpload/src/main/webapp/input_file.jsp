@@ -29,7 +29,6 @@
 	   f.submit();
 
    }
-
    
 	function send2(f){
 	   
@@ -52,8 +51,7 @@
 	   f.submit();
 
    }
-	
-	
+
 </script>
 
 
