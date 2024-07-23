@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+  
+ 
     
 <%@ taglib prefix="c"   uri="http://java.sun.com/jsp/jstl/core" %> 
 <%@ taglib prefix="fn"  uri="http://java.sun.com/jsp/jstl/functions"  %>   
@@ -23,10 +25,10 @@
    
    #title{
       text-align: center;
-      font-weight: bold;
+      font-weight: bolod;
       font-size: 32px;
-      color: skyblue;
-      /* text-shadow: 1px 1px 1px black; */
+      color: green;
+      text-shadow: 1px 1px 1px black;
    }
    
    #empty_msg{
@@ -37,7 +39,7 @@
    }
    
    th{
-      background: skyblue !important;
+      background: #333333 !important;
       color: white;
    }
    
@@ -47,65 +49,82 @@
    
 </style>
 
-<script type="text/javascript">
-	function del(mem_idx){
 
+<script type="text/javascript">
+
+	function del(mem_idx){
+		
+		
 		//console.log(mem_idx,"삭제");
 		if(confirm("정말 삭제 하시겠습니까?")==false) return;
 		
 		//삭제요청
 		location.href = "delete.do?mem_idx=" + mem_idx;   //MemberDeleteAction
+		
+		
 	}
+
 </script>
 
+
+
 <script type="text/javascript">
-	//$(document).ready(function(){});  // 이것과 동일하다. html 요소가 모두 ready되면  
-	$(function() {
-		setTimeout(showMessage, 100);
-	});
-	
-	function showMessage(){
+   
+   //초기화1
+   //$(document).ready(function(){});
+   
+   //초기화2
+   $(function(){
+	   setTimeout(showMessage,100);
+   });
+   
+   function showMessage(){
 	   // /member/list.do?reason=not_admin_delete
 	   if("${ param.reason eq 'not_admin_delete'}" == "true"){
 		   
 		   alert("관리자는 삭제할 수 없습니다");
 	   }
-	}
-	
+	   
+   }
+
+
 </script>
+
+
 
 </head>
 <body>
 
 	<div id="box">
-	     <h1 id="title">회원목록</h1> 
+	     <h1 id="title">::::회원목록::::</h1> 
 	     
 	     <div style="text-align: right;">
-	     
-	     <!-- 로그인이 안된 경우 -->
-     	 <c:if test="${empty sessionScope.user }"> <!-- 세션 스코프안에 user가 비어 있는지? -->
-        	<input class="btn btn-info" type="button"  value="로그인" 
-                onclick="location.href='login_form.do'">
-       	 </c:if>
-	     </div>
-	     
-	     <!-- 로그인이 된 경우 -->
-     	 <c:if test="${not empty sessionScope.user }"> <!-- 세션 스코프안에 user가 안 비어 있는지? -->
-     		<b>${sessionScope.user.mem_name }</b>님 환영합니다.
-        	<input class="btn btn-info" type="button" value="로그아웃"  
-               onclick="location.href='logout.do'">
-         </c:if>
+	         
+	         <!-- 로그인이 안된경우 -->
+	         <c:if test="${ empty  sessionScope.user }">
+		         <input class="btn btn-primary" type="button"  value="로그인" 
+		                onclick="location.href='login_form.do'">
+	         </c:if>  
+	         
+	         <!-- 로그인이 된경우 -->
+	         <c:if test="${ not empty sessionScope.user }">
+	             <b>${ sessionScope.user.mem_name }</b>님 환영합니다 
+	             <input class="btn btn-primary" type="button"  value="로그아웃" 
+		                onclick="location.href='logout.do'">
+	         </c:if>     
+	                
 	     </div>
 	     
 	     <div style="margin-top: 5px; margin-bottom: 5px;">
-	     <input class="btn btn-info" type="button" value="회원가입"  
+	        <input class="btn btn-primary" type="button" value="회원가입"  
 	               onclick="location.href='insert_form.do'">
-	               
+	     </div>
+	     
 	     <table class="table">
 	       
 	        <!-- 테이블 타이틀 -->
 	        <tr>
-	           <th>회원번호</th>
+	           <th>번호</th>
 	           <th>회원명</th>
 	           <th>아이디</th>
 	           <th>비밀번호</th>
@@ -137,7 +156,8 @@
 		                         onclick="location.href='modify_form.do?mem_idx=${ vo.mem_idx }'">
 		                  <input class="btn  btn-danger"   type="button"  value="삭제"  
 		                         onclick="del('${ vo.mem_idx }');">
-	                  </c:if>         
+	                  </c:if>
+	                  
 	              </td>
 	           </tr>
 	        </c:forEach>

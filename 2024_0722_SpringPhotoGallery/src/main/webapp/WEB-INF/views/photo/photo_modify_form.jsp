@@ -41,7 +41,8 @@
    function send(f){
 	   
 	   //입력값 체크....
-	   var p_title = f.p_title.value.trim();
+	   
+	   var p_title   = f.p_title.value.trim();
 	   var p_content = f.p_content.value.trim();
 	   
 	   if(p_title==''){
@@ -50,6 +51,7 @@
 		   f.p_title.focus();
 		   return;
 	   }
+	   
 	   
 	   if(p_content==''){
 		   alert('내용을 입력하세요');
@@ -64,7 +66,9 @@
 	   
    }
  
-   // Ajax 관련 코드 ---------------------------------------------------------------------
+   
+//------ Ajax이용한 이미지 수정----------------------------------------------   
+   
    function ajaxFileUpload() {
        // 업로드 버튼이 클릭되면 파일 찾기 창을 띄운다.
        $("#ajaxFile").click();
@@ -74,31 +78,36 @@
        // 파일이 선택되면 업로드를 진행한다.
        photo_upload();
    }
+
+
    
    function photo_upload() {
 
 	   //파일선택->취소시
-	   if( $("#ajaxFile")[0].files[0]==undefined) return;
+	   if( $("#ajaxFile")[0].files[0]==undefined)return;
 	   
-	   var form = $("ajaxForm")[0];
+	   	   
+	   var form = $("#ajaxForm")[0];
+	   
        var formData = new FormData(form);
-       
-       formData.append("p_idx", '${ vo.p_idx }');
-       formData.append("photo", $("#ajaxFile")[0].files[0]);
+       formData.append("p_idx", '${ vo.p_idx }');            //p_idx=5
+       formData.append("photo", $("#ajaxFile")[0].files[0]); //photo=bmi.png
 
        $.ajax({
-             url : "photo_upload.do", //PhotoUploadAction. 이미지만 수정하는 서블릿 
+             url : "photo_upload.do", //PhotoUploadAction
              type : "POST",
              data : formData,
              processData : false,
              contentType : false,
+             
              dataType : 'json',
-             success:function(result_data) {
-            	 //result_data = {"p_filename":"aaa.jpb"}
+             success:function(res_data) {
+            	 //res_data = {"p_filename":"aaa.jpb"}
                  
             	 //location.href=''; //자신의 페이지를 리로드(refresh)
             	 
-            	 $("#my_img").attr("src","../images/" + result_data.p_filename);
+            	 $("#my_img").attr("src","../resources/images/" + res_data.p_filename);
+            	 //$("#my_img").prop("src","../images/" + res_data.p_filename);
             	 
              },
              error : function(err){
@@ -119,12 +128,14 @@
     <input id="ajaxFile" type="file"  style="display:none;"  onChange="ajaxFileChange();" >
 </form>
 
+
   
   
   
 <form>
 
   <input type="hidden"  name="p_idx"  value="${ vo.p_idx }"> 
+  <input type="hidden"  name="page"   value="${ param.page }"> 
 
   <div id="box">
         <div class="panel panel-primary">
@@ -133,7 +144,7 @@
 	          <table class="table  table-striped">
 	               <tr>
 	                   <td colspan="2" align="center">
-	                       <img src="../images/${ vo.p_filename }" id="my_img">
+	                       <img src="../resources/images/${ vo.p_filename }" id="my_img">
 	                       <br>
 	                       <input  class="btn  btn-info" type="button"  value="이미지편집"  onclick="ajaxFileUpload();">
 	                   </td>
@@ -156,7 +167,7 @@
 	                       <input class="btn  btn-primary" type="button"  value="수정하기" 
 	                              onclick="send(this.form);">
 	                       <input class="btn  btn-success" type="button"  value="메인으로" 
-	                              onclick="location.href='list.do'">
+	                              onclick="location.href='list.do?page=${ param.page }'">
 	                   </td>
 	               </tr>
 	               

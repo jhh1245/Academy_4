@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+   
     
 <%@ taglib prefix="c"  uri="http://java.sun.com/jsp/jstl/core" %>    
     
@@ -8,6 +9,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+
 <!--  Bootstrap  3.x  -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
@@ -102,17 +104,25 @@
 	   
 	   f.action = "modify.do";  //MemberModifyAction
 	   f.submit(); //전송
-  
+	   
+	   
+	   
+	   
    }//end:send()
 </script>
 
+
 <script type="text/javascript">
-	$(document).ready(function(){
-		// element + attribute selector (속성 선택자)
-		$("select[name='mem_grade']").val("${vo.mem_grade}");  
-	});
+  
+  $(document).ready(function(){
+	  // element + attribute selector
+	  $("select[name='mem_grade']").val("${ vo.mem_grade }");
+	  
+  });
 
 </script>
+
+
 </head>
 <body>
 
@@ -120,7 +130,7 @@
    <input type="hidden"  name="mem_idx"  value="${ vo.mem_idx }">
    <div id="box">
 		<div class="panel panel-primary">
-			<div class="panel-heading"><h4>회원수정♪</h4></div>
+			<div class="panel-heading"><h4>::::회원수정::::</h4></div>
 			<div class="panel-body">
 			   <table class="table">
 			      <tr>

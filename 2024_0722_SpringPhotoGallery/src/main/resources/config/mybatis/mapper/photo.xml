@@ -60,7 +60,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   </update>
   
   <!-- 내용수정 -->
-  <update id="photo_upldate" parameterType="photo">
+  <update id="photo_update" parameterType="photo">
      update photo 
          set p_title=#{ p_title },
              p_content=#{ p_content },
