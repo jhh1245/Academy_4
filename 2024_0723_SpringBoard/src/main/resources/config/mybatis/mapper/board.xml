@@ -40,6 +40,50 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     	update board set b_readhit=b_readhit + 1 where b_idx=#{ b_idx }
   	</update>
 	
+	<!-- 기존글 보다 step이 큰 게시물의 step을 1씩 증가 : 답글 전처리 작업 -->
+	<update id="board_update_step" parameterType="vo.BoardVo">
+		update board set b_step = b_step + 1 
+			where b_ref = #{ b_ref } and b_step > #{ b_step }
+		-- 같은 그룹에 있는글 중에서 step이 큰 글만 
+		-- step은 같은 기준글 안에 순서 
+		
+	</update>
+	
+	
+	<!-- 답글쓰기 -->
+	<!-- controller에서 답글에 ref, step, depth를 vo에 넣엏으니까 --> 
+	<insert id="board_reply" parameterType="vo.BoardVo"> 
+		insert into board values(
+						 seq_board_idx.nextVal,
+                         #{ b_subject },
+                         #{ b_content },
+                         #{ b_ip },                  
+                         sysdate,
+                         0,
+                         'y',
+                         #{ mem_idx },
+                         #{ mem_name },
+                         #{ b_ref },   
+                         #{ b_step },
+                         #{ b_depth }
+                         ) 
+	</insert>
+	
+	
+  	<!-- 삭제처리 : b_use = 'n' -->
+  	<update id="board_update_b_use" parameterType="int">
+  		update board set b_use='n' where b_idx=#{ b_idx }
+  	</update>
+  	
+  	
+	<!-- 수정하기 -->
+	<update id="board_update"  parameterType="board">
+	    update board set b_subject=#{b_subject},
+	                     b_content=#{b_content},
+	                     b_ip=#{b_ip},
+	                     b_regdate=sysdate
+	    where b_idx=#{b_idx}                   
+	</update>
 </mapper>
 
 

@@ -49,4 +49,33 @@ public class BoardDaoImpl implements BoardDao {
 		return sqlSession.update("board.board_update_readhit", b_idx);
 	}
 
+
+	@Override
+	public int update_step(BoardVo baseVo) {
+		
+		return sqlSession.update("board.board_update_step", baseVo);
+		// 현재 기준글을 파라미터로 넘긴다. 
+		
+	}
+
+
+	@Override
+	public int reply(BoardVo vo) { 
+		
+		return sqlSession.insert("board.board_reply", vo);
+	} 
+
+
+	@Override
+	public int update_delete(int b_idx) {
+		return sqlSession.update("board.board_update_b_use", b_idx);
+	}
+
+
+	@Override
+	public int update(BoardVo vo) {
+		
+		return sqlSession.update("board.board_update", vo);
+	}
+
 }

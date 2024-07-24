@@ -30,6 +30,23 @@
       color: skyblue;
       text-shadow: 1px 1px 1px black;
    }
+   
+    .b_subject {
+      
+      display: inline-block;
+      width: 400px;
+      
+      /* ellipsis 속성 */
+      overflow: hidden;
+	  white-space: nowrap;
+	  text-overflow: ellipsis;
+	  word-break: break-all;
+      
+      
+      vertical-align: middle;
+      
+      
+   }
 </style>
 
 
@@ -116,8 +133,19 @@
                  ㄴ
                  </c:if>
                  
-                 <span class="b_subject"><a href="view.do?b_idx=${ vo.b_idx }">${ vo.b_subject }</a></span>
+                 <!-- 삭제된 게시물 -->
+                 <c:if test="${vo.b_use eq 'n' }">
+                 	<font color="red">(삭제)<span class="b_subject">${vo.b_subject }</span></font>
+                 </c:if>
                  
+                 <!-- 삭제안된 게시물 -->
+                 <c:if test="${vo.b_use eq 'y' }">
+                 	<span class="b_subject">
+                 		<a href="view.do?b_idx=${vo.b_idx }">${vo.b_subject }</a>
+                 	</span>
+                 </c:if>
+                 
+                
               </td>
               <td>${ vo.mem_name }</td>
               <td>${ vo.b_regdate }</td>
