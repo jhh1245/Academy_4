@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="diary">
+
+	<!-- 추가 
+		parameter가 객체로 전달되면 
+		mybatis parameter 변수는 
+		VO내 속성명을 이용할 수 있다.
+	-->
+	
+	<!-- 산책 추가 -->
+	<insert id="diary_walks_insert" parameterType="vo.WalksVo">
+		<!-- insert into Walks(w_id, p_id) values(	#{ w_id }, 
+								 	#{ p_id } get Name ()를 호출한 효과와 같다
+								 ) -->
+	</insert>
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
