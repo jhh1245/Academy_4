@@ -20,7 +20,7 @@ public class DiaryDaoImpl implements DiaryDao {
 	@Autowired
 	SqlSession sqlSession;
 	
-	String now_date = "2024-07-25";
+	String now_date = "2024-07-26";
 	
 	@Override
 	public List<WeightVo> selectList_weight() {
@@ -31,6 +31,21 @@ public class DiaryDaoImpl implements DiaryDao {
 	@Override
 	public int diary_insert_weight(WeightVo vo) {
 		return sqlSession.insert("diary.diary_insert_weight", vo);
+	}
+
+	@Override
+	public List<WeightVo> diary_select_weight_date(String date) {
+		return sqlSession.selectList("diary.diary_select_weight_date", date);
+	}
+
+	@Override
+	public WeightVo selectOne_weight(int w_idx) {
+		return sqlSession.selectOne("diary.diary_select_one_weight", w_idx);
+	}
+
+	@Override
+	public int update_weight(WeightVo vo) {
+		return sqlSession.update("diary.diary_update_weight", vo);
 	}
 	
 

@@ -17,8 +17,8 @@
       width: 600px;
       margin: auto;
       margin-top: 150px;
-   }
- 
+   }  
+    
    textarea {
 	  resize: none;
    }

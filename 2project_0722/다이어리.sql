@@ -7,7 +7,7 @@ create sequence seq_stoll_s_idx ;
 create sequence seq_stoll_s_idx ;
 
 
-drop table weight
+delete from weight
 
 select * from weight
 
@@ -19,7 +19,9 @@ insert into weight values(
                  10
                  ) 
                  
-                 
+	    update weight 
+	    	set w_weight=55
+    	where w_idx=7                    
                  
                  
 -- 테이블 + 제약조건까지 삭제 (필요시)

@@ -21,6 +21,25 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		                 #{ w_weight }
 		                 ) 
 	</insert>
+	
+	<!-- 선택 날짜의 체중 기록 조회 -->
+	<select id="diary_select_weight_date" resultType="weight" parameterType="String">
+		select * from weight where to_char(w_rdate,'YYYY-MM-DD') = #{ date }
+	</select>
+	
+	
+	
+   <!-- idx에 해당되는 기록글 1건 얻어오기 -->
+   <select id="diary_select_one_weight"  parameterType="int"  resultType="weight">
+      select * from weight where w_idx=#{ w_idx }
+   </select>
+   
+   	<!-- 수정하기 -->
+	<update id="diary_update_weight"  parameterType="weight">
+	    update weight 
+	    	set w_weight=#{w_weight}
+    	where w_idx=#{w_idx}                   
+	</update>
 </mapper>
 
 

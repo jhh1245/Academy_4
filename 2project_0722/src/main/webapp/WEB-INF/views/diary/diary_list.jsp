@@ -35,36 +35,79 @@ document.addEventListener('DOMContentLoaded', function() {
       center: 'title',
       right: 'dayGridMonth,dayGridWeek,dayGridDay'
     },
-    initialDate: '2023-01-12',
+    initialDate: '2024-07-26',
     dateClick: function(info) { // 날짜 클릭시 이벤트 
 	    // alert('Clicked on: ' + info.dateStr);
     
 	      // 클릭한 날짜를 보여주는 div 업데이트
 	      document.getElementById('selected-date').innerText = 'Selected Date: ' + info.dateStr;
 	      
-	      // select-date 의 밸류를 info.dateStr로 하고 
+	      // 선택한 날짜 select-date 의 value값을 info.dateStr로 설정  
 	      document.getElementById('select_date').value = info.dateStr;
 	      
+	      // 선택한 날짜에 대한 데이터 조회 
 	      
-	      
-	      // 메모 입력 폼 생성
-	      var memoFormHtml = `
-	        <form id="memoForm" action="diaryAdd.do" method="post">
-	    	  
-	    	  /* <label for="w_id">w_id ID:</label>
-	    	  <input type="text" id="w_id" name="w_id"><br>
-	    	  
-	    	  <label for="p_id">Pet ID:</label>
-	    	  <input type="text" id="p_id" name="p_id"><br> */
-	    	  
-	          <input type="submit" value="Save Memo">
-	        </form>
-	      `;
-	      
-	      document.getElementById('memo-form-container').innerHTML = memoFormHtml;
+          $.ajax({
+              url: 'diary_select_date.do',
+              type: 'GET',
+              data: { date: info.dateStr },
+              success: function(response) {
+                  // 서버에서 받은 데이터 처리
+
+                  var data = response.weight_list; // 이미 JSON 형태로 반환되므로 별도의 파싱 필요 없음
+                  
+                  // 서버에서 반환된 데이터를 HTML에 뿌려줍니다.
+                  var formHtml = '<form id="memoForm" action="diaryAdd.do" method="post">';
+                  
+                  
+                  // 여러 개의 체중 기록을 처리
+                  data.forEach(function(WeightVo) {
+                      formHtml += '<div><form action="diary_modify_form.do" method="post"><table class="table"><tbody>';
+                      formHtml += '<tr><th>반려동물</th>';
+                      formHtml += '<td><input class="form-control form-control-lg" type="text" name="w_rdate" value="' + (WeightVo.p_idx || '') + '"></td></tr><br>';
+                      formHtml += '<tr><th>체중(kg)</th>';
+                      formHtml += '<td><input class="form-control form-control-lg" type="text" name="p_idx" value="' + (WeightVo.w_weight || '') + '"></td></tr><br>';
+                      
+                      formHtml += '</div>';
+                      formHtml += '<a href="diary_view_weight.do?w_idx=' + (WeightVo.w_idx || '') + '"><input class="diary-btn-yellow" type="button" value="상세보기"></a>';
+                      formHtml += '<input class="diary-btn-yellow" type="button" value="삭제">';
+                      
+                      
+           /*            <form action="diary_modify_form.do" method="post">
+      				<table class="table">
+      					<tbody><tr>
+      						<th>날짜</th>
+      						<td><input class="form-control form-control-lg" type="text" name="w_rdate" value=${ vo.w_rdate }></td>
+      					</tr>
+      					<tr>
+      						<th>반려동물</th>
+      						<td><input class="form-control form-control-lg" type="text" name="p_idx" value=${ vo.p_idx }></td>
+      					</tr>
+      					<tr>
+      						<th>체중(kg)</th>
+      						<td><input class="form-control form-control-lg" type="number" name="w_weight" value=${ vo.w_weight }></td>
+      					</tr>
+      				</tbody></table>
+
+      				<div class="container" style="text-align: center;">
+      					<input class="diary-btn-yellow" type="button" value="수정" onclick="send(this.form);">
+      				</div>
+
+      			</form> */
+                      
+                  });
+                  
+                  
+                  formHtml += '</form>';
+
+                  $('#diary_select_date').html(formHtml); 
+              }
+             /*  error: function(error) {
+                  console.error('Error fetching data:', error);
+              } */
+          });   
 	    
     },
-    
     navLinks: true, // can click day/week names to navigate views
     editable: true,
     dayMaxEvents: true, // allow "more" link when too many events
@@ -308,7 +351,7 @@ body {
 	<div id='calendar'></div>
 
 	<div id='selected-date' style="text-align: center; margin-top: 20px;"></div>
-	<div id='memo-form-container'></div>
+	<div id='diary_select_date'></div>
 
 
 	<div class="container">
@@ -360,11 +403,9 @@ body {
 		</form>
 		</c:forEach> --%>
 
-		
-		왜 안나오지?
 		<!-- 체중 -->
 	    <c:forEach var="vo" items="${ weight_list }">
-			<form id="memoForm" action="http://localhost:8080/fileupload/diaryAdd.do" method="post">
+			<form action="diary_modify_form.do" method="post">
 				<table class="table">
 					<tbody><tr>
 						<th>날짜</th>
