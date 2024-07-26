@@ -85,9 +85,21 @@ select * from board
 
 
 
-	      
-	      	      	      
-	          
+-- paging menu
+
+select * from  
+( 
+	select 
+		rank() over(order by b_ref desc, b_step asc)as no, 
+		b.*,
+		(select nvl(count(*), 0) from comment_tb where b_idx = b.b_idx) as cmt_count
+	from 
+		(select * from board) b  
 )
+where no between 1 and 5 
+
+-- 해당 게시글에 연결된 댓글 갯수 
+select nvl(count(*), 0) from comment_tb where b_idx = 30 
+
 
 */

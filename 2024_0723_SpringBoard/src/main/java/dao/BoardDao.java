@@ -1,6 +1,7 @@
 package dao;
 
 import java.util.List;
+import java.util.Map;
 
 import vo.BoardVo;
 
@@ -21,5 +22,9 @@ public interface BoardDao {
 	int update_delete(int b_idx);
 
 	int update(BoardVo vo);
+
+	List<BoardVo> selectList(Map<String, Object> map);
+
+	int selectRowTotal(Map<String, Object> map);
 	
 }

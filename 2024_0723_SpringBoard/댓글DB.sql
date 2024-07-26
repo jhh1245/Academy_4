@@ -28,11 +28,18 @@ alter table comment_tb
                                         references member_test(mem_idx); 
 
 
+select * from (
+	select 
+		rank() over(order by cmt_idx desc) as no,
+		c.*
+	from
+	(
+		select * from comment_tb where b_idx = 20
+	) c
+) where no between 1 and 5 
+
+
 select * from comment_tb
-
-
-
-
 
 
 */

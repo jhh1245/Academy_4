@@ -1,6 +1,8 @@
 package controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -10,9 +12,12 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import dao.BoardDao;
+import util.MyCommon;
+import util.Paging;
 import vo.BoardVo;
 import vo.MemberVo;
 
@@ -34,23 +39,41 @@ public class BoardController {
 	@Autowired
 	BoardDao board_dao; // 인젝션 받아야 한다.
 
+	// list.do
+	// list.do?page=1
 	@RequestMapping("list.do")
-	public String list(Model model) {
+	public String list(@RequestParam(name="page",defaultValue = "1") int nowPage,
+			Model model) {
 
 		// 세션에 기록되어있는 show 삭제
 		session.removeAttribute("show");
 
+		Map<String, Object> map = new HashMap<String, Object>(); // 페이징 메뉴가 들어갈 정보
+		
+		int start = (nowPage-1) * MyCommon.Board.BLOCK_LIST + 1;
+		int end   = start + MyCommon.Board.BLOCK_LIST - 1;
+		
+		map.put("start", start);
+		map.put("end", end);
+		
 		// 게시판 목록 가져오기
-		List<BoardVo> list = board_dao.selectList();
+		List<BoardVo> list = board_dao.selectList(map); 
 		// 위에 선언한 dao에서 selectList()메서도를 통해서 가져온다.
 
 		// System.out.println(list.size());
 
+		// 전체게시물수
+		int rowTotal = board_dao.selectRowTotal(map);
+		
+		// page Menu 생성하기
+		String pageMenu = Paging.getPaging("list.do", nowPage, rowTotal, MyCommon.Board.BLOCK_LIST, MyCommon.Board.BLOCK_PAGE);
+		
+		
 		// DS이 전달해준 Model 통해서 데이터를 넣는다.
 		// DS는 Model에 저장된 데이터를 request binding 시킨다.
-
 		model.addAttribute("list", list);
-
+		model.addAttribute("pageMenu", pageMenu);
+		
 		return "board/board_list";
 	}
 

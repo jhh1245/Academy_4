@@ -119,32 +119,37 @@
         <!-- for(BoardVo vo : list ) -->
         <c:forEach var="vo" items="${ list }">
            <tr>
-              <td>${ vo.b_idx }</td>
+              <td>${ vo.no }</td> <!-- vo.b_idx -->
               <td>
-                 
-                 <!-- 답글이면 b_depth만큼 들여쓰기 -->
-                 <c:forEach begin="1"  end="${ vo.b_depth }">
-                    &nbsp;&nbsp;&nbsp;
-                 </c:forEach>
-              
-              
-                 <!-- 답글이면 -->
-                 <c:if test="${ vo.b_depth ne 0 }">
-                 ㄴ
-                 </c:if>
-                 
-                 <!-- 삭제된 게시물 -->
-                 <c:if test="${vo.b_use eq 'n' }">
-                 	<font color="red">(삭제)<span class="b_subject">${vo.b_subject }</span></font>
-                 </c:if>
-                 
-                 <!-- 삭제안된 게시물 -->
-                 <c:if test="${vo.b_use eq 'y' }">
-                 	<span class="b_subject">
-                 		<a href="view.do?b_idx=${vo.b_idx }">${vo.b_subject }</a>
-                 	</span>
-                 </c:if>
-                 
+                 <span class="b_subject">
+	                 <!-- 답글이면 b_depth만큼 들여쓰기 -->
+	                 <c:forEach begin="1"  end="${ vo.b_depth }">
+	                    &nbsp;&nbsp;&nbsp;
+	                 </c:forEach>
+	              
+	              
+	                 <!-- 답글이면 -->
+	                 <c:if test="${ vo.b_depth ne 0 }">
+	                 ㄴ
+	                 </c:if>
+	                 
+	                 <!-- 삭제된 게시물 -->
+	                 <c:if test="${ vo.b_use eq 'n' }">
+	                    <font color="red">(삭제)${ vo.b_subject }</font>
+	                 </c:if>
+	                 
+	                 <!-- 삭제안된 게시물 -->
+	                 <c:if test="${vo.b_use eq 'y' }">
+	                 		<a href="view.do?b_idx=${vo.b_idx }">
+	                 			${vo.b_subject }
+	
+	               			</a>
+	                 </c:if>
+                </span>
+                 <!-- 댓글갯수 배지 -->
+                <c:if test="${vo.cmt_count ne 0}"> <!-- ne : != 0의미 -->
+                	<span class="badge">${vo.cmt_count }</span>
+               	</c:if>
                 
               </td>
               <td>${ vo.mem_name }</td>
@@ -152,9 +157,12 @@
               <td>${ vo.b_readhit }</td>
            </tr>
         </c:forEach>
-        
-        
     </table>
+    
+    <!-- PageMenu -->
+    <div style="text-align: center;">
+    	${ pageMenu }
+    </div>
 
 
 </div>

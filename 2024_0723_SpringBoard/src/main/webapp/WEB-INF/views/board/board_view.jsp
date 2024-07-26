@@ -116,9 +116,11 @@ function comment_insert(){
 }//end:comment_insert()
 
 
+var g_page = 1; // 전역변수!!! 
+
 //댓글목록 요청
 function comment_list(page){
-	   
+	   g_page = page;
 	   $.ajax({
 		   
 		   url		:	"../comment/list.do",
@@ -174,8 +176,6 @@ $(document).ready(function(){
 			           <input class="btn btn-danger"  type="button"  value="삭제하기"
 			           		  onclick="del();">
 		           </c:if>
-		           
-		           
 		           
 		        </div>
 		     </div>
