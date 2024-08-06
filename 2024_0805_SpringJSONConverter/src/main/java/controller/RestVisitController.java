@@ -113,7 +113,7 @@ public class RestVisitController {
 		}
 	 * 
 	 */
-	@RequestMapping(value = "/rest/visit", method=RequestMethod.PATCH) 
+	@RequestMapping(value = "/rest/visit", method=RequestMethod.PUT) 
 	@ResponseBody
 	public Map<String, Object> update(@RequestBody VisitVo vo){
 		
@@ -157,6 +157,21 @@ public class RestVisitController {
 	@RequestMapping(value="/rest/visit/{idx}/c-pwd/{c_pwd}", method=RequestMethod.GET)
 	@ResponseBody
 	public Map<String, Object> check_pwd(@PathVariable int idx, @PathVariable String c_pwd){
+		
+		VisitVo vo = visit_dao.selectOne(idx);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		map.put("result", vo.getPwd().equals(c_pwd)); 
+		// vo가 가지고 있는 pwd랑, 넘겨진 c_pwd(사용자가 입력한 비번)가 같은가? 
+		
+		return map;
+	}
+	
+	// 비밀번호 체크 : /rest/visit/idx/{idx}/c-pwd/{c-pwd}
+	@RequestMapping(value="/rest/visit/checkpwd/{idx}/{c_pwd}", method=RequestMethod.GET)
+	@ResponseBody
+	public Map<String, Object> check_pwd2(@PathVariable int idx, @PathVariable String c_pwd){
 		
 		VisitVo vo = visit_dao.selectOne(idx);
 		

@@ -64,7 +64,7 @@
 			return;
 		}
 	  
-	   f.method = "PATCH";
+	   f.method = "POST";
 	   f.action = "visit"; // 전송대상(VisitModifyAction)
 	   f.submit(); //전송
    }

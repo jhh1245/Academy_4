@@ -92,7 +92,7 @@
 						        <div class="common">
 						        비밀번호: ( ${visit.pwd} ) <input class="form-control" type="text" id="c_pwd">
 						                 <input class="btn btn-danger" type="button" value="삭제" onclick="visit_delete(this.form);">
-						                 <input class="btn btn-info"   type="button" value="수정" onclick="visit_modify(this.form);">
+						                 <input class="btn btn-info"   type="button" value="수정" onclick="visit_update(this.form);">
 						       </div>						     
 						     </div>
 						   </div>
@@ -111,142 +111,45 @@
    } // end: visit_list
    
    
-   function visit_modify(f){
-	   
-	   
-	   let idx   = f.idx.value;
-	   let c_pwd = f.c_pwd.value.trim();
-	   
-	   if(c_pwd==''){
-		   alert("수정 비밀번호를 입력하세요!");
-		   f.c_pwd.value="";
-		   f.c_pwd.focus();
-		   return;
-	   }
-	   
-	   console.log(idx,c_pwd);
-	   
-	   //Ajax로 비밀번호체크확인
-	   $.ajax({
-		   type		:	'GET',
-		   url		:	`rest/visit/checkpwd/${idx}/${c_pwd}`,
-		   dataType	:	"json",
-		   success	:	function(res_data){
-			   //res_data = {"result" : true }  or {"result" : false } 
-			   if(res_data.result==false){
-				   alert("비밀번호가 틀립니다!");
-				   return;
-			   }
-			   
-			   //비밀번호가 일치했을경우 처리
-			   visit_modify_form(idx);
-			   
-		   },
-		   error	:	function(err){
-			   alert(err.responseText);
-		   }
-	   });
-   }//end:visit_modify()
-   
-   //수정폼 띄우기
-   function visit_modify_form(idx){
-	 
-	   //수정폼 모달로 띄우기
-	   $("#myModal").modal({backdrop: "static"});
-	   
-	   //idx에 해당되는 게시물 가져와서 myModal(수정)폼에 원보데이터 넣기
-	   $.ajax({
+	function visit_update(f){
 		   
-		   type		:	"GET",
-		   url		:	`rest/visit/${idx}`,
-		   dataType	:	"json",
-		   success	:	function(res_data){
-			   //res_data = {"no":1,"idx":63,"name":"홍길동","content":"REST API POST전송한 데이터","pwd":"1234","ip":"0:0:0:0:0:0:0:1","regdate":"2024-08-05 13:48:08.0"}
-			   $("#update_idx").val(res_data.idx);
-			   $("#update_name").val(res_data.name);
-			   $("#update_content").val(res_data.content.replaceAll("<br>","\n"));
-			   $("#update_pwd").val(res_data.pwd);
-			   
-			   $("#update_idx").attr("readOnly",true);
-		   },
-		   error	:	function(err){
-			   alert(err.responseText);
-		   }
-		   
-	   });
-	   
-	   
-	      
-   }//end: visit_modify_form()
-	 
-   
-   // 수정 최종 
-   function modify(){
-	   
-	   
-	   let idx = $("#update_idx").val(); // 수정폼 안에 있는 id로 
-	   let name = $("#update_name").val().trim();
-	   let content = $("#update_content").val().trim();
-	   let pwd = $("#update_pwd").val().trim();
-	   
-	   if(name == ''){
-	   		alert("작성자명을 입력하세요!");
-	   		$("#update_name").value = "";
-	   		$("#update_name").focus();
-	   		return;
-	   } 
-	   
-	   if(content == ''){
-	   		alert("내용을 입력하세요!");
-	   		$("#update_content").val = "";
-	   		$("#update_content").focus();
-	   		return;
-	   }
-	   
-	   if(pwd == ''){
-	   		alert("비밀번호를 입력하세요!");
-	   		$("#update_pwd").value = "";
-	   		$("#update_pwd").focus();
-	   		return;
-	   }
-	   
-	   if(confirm("정말 수정하시겠습니까?") == false) return;
-	   
-	   let visit = {"idx":idx, "name":name,"content":content,"pwd":pwd };
-	   
-	   // JSON.stringify : JSON => Text 변환시
-	   // JSON.parse	 : Text => JSON 변환시 
-	   
-	   // Ajax insert 
-	   $.ajax({
-		   type		: "PUT", 
-		   url		: "rest/visit",
-		   contentType  : "application/json;charset=utf-8",
-		   data		: JSON.stringify(visit), // text로 변환한다 
-		   dataType : "json",
-		   success  : function(res_data){
-			   // res_data = { "result" : true } or {"result" : false}
-			   
-			   if(res_data.result == false){
-				   alert("수정 실패!!");
-				   return;
-			   }
-			   			
-			   // 모달 닫기 
-			   $("#myModal").modal("hide");
-			   
-			   // 목록가져오기
-			   visit_list();
+		let c_pwd = f.c_pwd.value.trim();
+		let idx   = f.idx.value;
+		
+		if(c_pwd == ''){
+			   alert("수정할 게시물의 비밀번호를 입력하세요!");
+			   f.c_pwd.value="";
+			   f.c_pwd.focus();
+			   return;	
+		}
+		
+		   // Ajax로 비밀번호 체크 확인 
+		   $.ajax({
+			   type		: 'GET', 
+			   url		: `rest/visit/checkpwd/${idx}/${c_pwd}`,		
+			   dataType : "json",
+			   success  : function(res_data){
+				   // res_data = { "result" : true } or {"result" : false}
+				   
+				   if(res_data.result == false){
+					   alert("비밀번호가 틀립니다");
+					   return;
+				   }
+				   
+				   // 비밀번호 일치했을 경우
+				   if(confirm("정말 수정하시겠습니까?") == false) return;
+				   
+				   // Ajax로 삭제 요청 처리   
+				   location.href="rest/modify_form.do?idx=" + idx;
 
-		   },
-		   error 	: function(err){
-			   alert(err.responseText);
-		   }
-	   });
-   }
-   
-   
-	// 삭제버튼 클릭시    
+			   },
+			   error 	: function(err){
+				   alert(err.responseText);
+			   }
+		   });
+    }
+	   
+	   
 	function visit_delete(f){
 	   let idx = f.idx.value;
 	   let c_pwd = f.c_pwd.value.trim();
@@ -287,7 +190,6 @@
 	   
    } // end:visit_delete
 	   
-   // 삭제 
    function delete_visit(idx){
 	   $.ajax({
 		   type		: "DELETE", 
@@ -428,41 +330,5 @@
 		<!-- 목록출력 -->
 		<div id="disp"></div>
 	</div>
-	
-	<!-- 수정폼 모달 -->
-
-<!-- Modal -->
-<div class="modal fade" id="myModal" role="dialog">
-    <div class="modal-dialog">
-    
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">방명록 수정</h4>
-        </div>
-        <div class="modal-body">
-          <div>
-              게시물번호:<input class="form-control" id="update_idx">
-          </div>
-          <div>
-              작성자:<input class="form-control" id="update_name">
-          </div>
-          <div>
-              내용:<textarea class="form-control"  cols="5" id="update_content"></textarea>
-          </div>
-          <div>
-              비밀번호:<input class="form-control" type="password" id="update_pwd">
-          </div>
-          
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-info" onclick="modify();">수정하기</button>
-          <button type="button" class="btn btn-danger" data-dismiss="modal">취소하기</button>
-        </div>
-      </div>
-      
-    </div>
- </div>
 </body>
 </html>
