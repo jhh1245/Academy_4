@@ -11,7 +11,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<!-- idx로 객체 1개 조회 -->
 	<select id="product_remain_one_idx" parameterType="int" resultType="product">
-		select * from product_main where idx=#{idx}
+		select * from product_remain where idx=#{idx}
 	</select>
 	
 	<!-- idx로 객체 1개 조회 -->

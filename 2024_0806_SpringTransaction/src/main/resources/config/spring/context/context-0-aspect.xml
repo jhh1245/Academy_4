@@ -7,7 +7,7 @@
 
 	<aop:config>
 		<aop:pointcut id="serviceMethod" 
-		     expression="execution(* kr.co.hb.service.*.*(..))" 
+		     expression="execution(* service.*Service.*(..))" 
 		     />
 
 		<aop:aspect ref="myHandler"> <!-- exception 생기면 process라는 메소드로 -->

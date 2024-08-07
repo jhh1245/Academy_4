@@ -13,7 +13,12 @@
 
 <script type="text/javascript">
  window.onload=function(){
-      
+	 
+	 setTimeout(showMessage, 100); // 모두 화면에 출력된 다음에 0.1 초 뒤에 메시지가 팝업  
+     
+ };
+ 
+ function showMessage(){
 	 if("${ param.error eq 'remain_not' }"=='true')
 	 {
 		 alert('재고목록에 출고할\n상품이 없습니다');
@@ -23,8 +28,13 @@
 	 {
 		 alert('출고할 상품수량이 부족합니다');
 	 }
+	 
+	 if("${ param.error eq 'delete_in_lack' }"=='true')
+	 {
+		 alert('입고취소 수량보다 재고 수량이 적습니다.');
+	 }
 	     
- };
+ }
 </script>
 
 

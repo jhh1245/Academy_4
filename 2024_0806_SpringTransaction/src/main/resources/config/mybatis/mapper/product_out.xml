@@ -10,6 +10,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 
 
+	<!-- idx로 객체 1개 조회 -->
+	<select id="product_out_one_idx" parameterType="int" resultType="product">
+		select * from product_out where idx=#{idx}
+	</select>
+	
 	<!-- 추가 -->
 	<insert id="product_out_insert" parameterType="product">
 		insert into product_out 

@@ -1,6 +1,12 @@
 select * from product_in
+select * from product_remain
+delete from product_in;
+delete from product_out;
+delete from product_remain;
 
-
+drop sequence seq_product_in_idx
+drop sequence seq_product_remain_idx
+drop sequence seq_product_out_idx
 --입고
 create sequence seq_product_in_idx
 

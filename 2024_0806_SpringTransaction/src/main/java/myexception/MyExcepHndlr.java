@@ -8,9 +8,10 @@ public class MyExcepHndlr extends Exception {
 	public void process(JoinPoint thisJoinPoint, Exception exception) throws Exception {
 		//System.out.println("---MyException process()--- : " + exception.getMessage());
 		Signature sign = thisJoinPoint.getSignature();
+		
 		System.out.println("---[Exception]" + sign.getDeclaringTypeName() +":"+sign.getName() + "---");
-		//System.out.println("          --[³»¿ë]:" + exception.getMessage());
+		//System.out.println("          --[ë‚´ìš©]:" + exception.getMessage());
 		
-		
+		/* exception.printStackTrace(); */
 	}
 }
